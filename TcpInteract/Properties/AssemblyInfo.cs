@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("TcpInteract")]
-[assembly: AssemblyDescription("Provides an intuitive server abraction with message and file trnsfer capabilities")]
+[assembly: AssemblyDescription("a simple, easy-to-use, TCP, .NET, networking library.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Able Opus")]
 [assembly: AssemblyProduct("TcpInteract")]
-[assembly: AssemblyCopyright("Copyright ©  2013")]
+[assembly: AssemblyCopyright("Copyright Able Opus©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
