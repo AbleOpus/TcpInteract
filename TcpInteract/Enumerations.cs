@@ -59,9 +59,9 @@ namespace TcpInteract
         /// </summary>
         NameExists,
         /// <summary>
-        /// Name has invalid characters.
+        /// The client name has been invalidated by a regex pattern.
         /// </summary>
-        NameHasInvalids,
+        RegexInvalidated,
         /// <summary>
         /// The client connected but did not log in soon enough.
         /// </summary>

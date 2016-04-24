@@ -296,7 +296,7 @@ namespace TcpInteract
 
             // The name cannot match the refuse pattern and cannot be the same as the servers name
             if (!String.IsNullOrEmpty(refusePattern) && Regex.IsMatch(clientName, refusePattern))
-                reason |= ConnectionRefusedReason.NameHasInvalids;
+                reason |= ConnectionRefusedReason.RegexInvalidated;
 
             if (clients.Any(c => clientName == c.Name))
                 reason |= ConnectionRefusedReason.NameExists;
