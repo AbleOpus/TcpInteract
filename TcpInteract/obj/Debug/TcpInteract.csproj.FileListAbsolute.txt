@@ -1,0 +1,6 @@
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\TcpInteract\bin\Debug\TcpInteract.XML
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\TcpInteract\bin\Debug\TcpInteract.dll
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\TcpInteract\bin\Debug\TcpInteract.pdb
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\TcpInteract\obj\Debug\TcpInteract.dll
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\TcpInteract\obj\Debug\TcpInteract.pdb
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\TcpInteract\obj\Debug\TcpInteract.csprojResolveAssemblyReference.cache

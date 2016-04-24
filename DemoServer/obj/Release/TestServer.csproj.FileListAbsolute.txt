@@ -1,0 +1,14 @@
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Server\bin\Release\Test Server.exe.config
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Server\bin\Release\Test Server.exe
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Server\bin\Release\Test Server.pdb
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Server\bin\Release\TcpInteract.dll
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Server\bin\Release\TestShared.dll
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Server\bin\Release\TestShared.pdb
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Server\bin\Release\TcpInteract.pdb
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Server\bin\Release\TcpInteract.xml
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Server\obj\Release\TestServer.csprojResolveAssemblyReference.cache
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Server\obj\Release\TestServer.Forms.MainForm.resources
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Server\obj\Release\TestServer.Properties.Resources.resources
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Server\obj\Release\TestServer.csproj.GenerateResource.Cache
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Server\obj\Release\Test Server.exe
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Server\obj\Release\Test Server.pdb

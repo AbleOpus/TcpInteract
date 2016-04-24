@@ -1,0 +1,17 @@
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Client\bin\Debug\Test Client.exe.config
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Client\obj\Debug\TestClient.csprojResolveAssemblyReference.cache
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Client\obj\Debug\TestClient.Forms.LoginForm.resources
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Client\obj\Debug\TestClient.Properties.Resources.resources
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Client\obj\Debug\TestClient.csproj.GenerateResource.Cache
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Client\bin\Debug\Test Client.exe
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Client\bin\Debug\Test Client.pdb
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Client\bin\Debug\TcpInteract.dll
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Client\bin\Debug\TestShared.dll
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Client\bin\Debug\TestShared.pdb
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Client\bin\Debug\TcpInteract.pdb
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Client\bin\Debug\TcpInteract.xml
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Client\obj\Debug\Test Client.exe
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Client\obj\Debug\Test Client.pdb
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Client\obj\Debug\TestClient.Forms.MessengerForm.resources
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Client\bin\Debug\Test Client.exe.CodeAnalysisLog.xml
+D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\Test Client\bin\Debug\Test Client.exe.lastcodeanalysissucceeded

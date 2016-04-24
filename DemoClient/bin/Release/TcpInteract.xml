@@ -1,0 +1,1030 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TcpInteract</name>
+    </assembly>
+    <members>
+        <member name="T:TcpInteract.ClientBase">
+            <summary>
+            Provides the base functionality for a <see cref="N:TcpInteract"/> TCP client.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ClientBase.Kicked">
+            <summary>
+            Gets or sets whether the client has been kicked.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ClientBase.Status">
+            <summary>
+            Gets the connection status of the client.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ClientBase.Socket">
+            <summary>
+            Gets or sets this client's socket used for small data transfers.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ClientBase.Name">
+            <summary>
+            Gets or sets the name of this client. This is also the clients identifier. Two clients
+            with the same name cannot log into the same TcpInteract server. The name must be set before
+            the client logs in.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">Cannot change client name while logged in.</exception>
+        </member>
+        <member name="P:TcpInteract.ClientBase.ConnectionTime">
+            <summary>
+            Gets the time in which this client has established a connection. 
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ClientBase.LoggedInTime">
+            <summary>
+            Gets the time in which this client has logged in. 
+            </summary>
+        </member>
+        <member name="E:TcpInteract.ClientBase.StatusChanged">
+            <summary>
+            Occurs when the value of the <see cref="P:TcpInteract.ClientBase.Status"/> property has changed.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ClientBase.OnStatusChanged">
+            <summary>
+            Raises the <see cref="E:TcpInteract.ClientBase.StatusChanged"/> event.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ClientBase.OnLoggedOut(TcpInteract.LogoutContent)">
+            <summary>
+            Raises when a client logs out.
+            </summary>
+            <param name="content">Content that describes what client has logged out and for what reason.</param>
+        </member>
+        <member name="M:TcpInteract.ClientBase.OnNamesReceived(TcpInteract.ClientNamesContent)">
+            <summary>
+            Raises when a list of client names has been received.
+            </summary>
+            <param name="content">Content that lists the names of all clients logged in.</param>
+        </member>
+        <member name="M:TcpInteract.ClientBase.OnLoggedIn(TcpInteract.LoginContent)">
+            <summary>
+            Raises when a client has logged in.
+            </summary>
+            <param name="content">Content to describe a successful client login.</param>
+        </member>
+        <member name="M:TcpInteract.ClientBase.OnPackageReceived(TcpInteract.Package)">
+            <summary>
+            Raises when a client received a completed <see cref="T:TcpInteract.Package"/>.
+            </summary>
+            <param name="package">The package that has been received.</param>
+        </member>
+        <member name="M:TcpInteract.ClientBase.IsInactiveAsync(System.Int32)">
+            <summary>
+            Gets whether the client is actively connected asynchronously.
+            </summary>
+            <param name="waitTime">The wait time in microseconds.</param>
+        </member>
+        <member name="M:TcpInteract.ClientBase.IsInactive(System.Int32)">
+            <summary>
+            Gets whether the client is actively connected.
+            </summary>
+            <param name="waitTime">The wait time in microseconds.</param>
+        </member>
+        <member name="M:TcpInteract.ClientBase.ProcessReceived(System.Byte[])">
+            <summary>
+            Processes the bytes received by this client.
+            </summary>
+            <param name="recBuffer">Only received bytes and no leftovers.</param>
+        </member>
+        <member name="M:TcpInteract.ClientBase.ResetClient">
+            <summary>
+            Resets the client for reconnection. Implement any prestige logic here.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ClientBase.SendPackageAsync(System.Int32)">
+            <summary>
+            Sends the specified package asynchronously to the server.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ClientBase.SendPackageAsync(TcpInteract.Package)">
+            <summary>
+            Sends the specified package asynchronously to the server.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ClientBase.OnClientTimedOut">
+            <summary>
+            Raises when the client has disconnected ungracefully. This disconnect is detected
+            only when the client sends or receives.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ClientBase.SendPackageTaskAsync(TcpInteract.Package)">
+            <summary>
+            Sends the specified package asynchronously to the server.
+            </summary>
+            <returns>How many bytes were sent.</returns>
+        </member>
+        <member name="M:TcpInteract.ClientBase.SendPackageTaskAsync(System.Int32,TcpInteract.ISerializable)">
+            <summary>
+            Sends the specified package asynchronously to the server.
+            </summary>
+            <returns>How many bytes were sent.</returns>
+        </member>
+        <member name="M:TcpInteract.ClientBase.SendPackageAsync(System.Int32,TcpInteract.ISerializable)">
+            <summary>
+            Sends the specified package asynchronously to the server.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ClientBase.SendPackage(System.Int32,TcpInteract.ISerializable)">
+            <summary>
+            Sends the package synchronously to the server.
+            </summary>
+            <returns>Returns the amount of data sent in bytes.</returns>
+        </member>
+        <member name="M:TcpInteract.ClientBase.SendPackage(TcpInteract.Package)">
+            <summary>
+            Sends the package synchronously to the server.
+            </summary>
+            <returns>Returns the amount of data sent in bytes.</returns>
+        </member>
+        <member name="M:TcpInteract.ClientBase.StartReceiving">
+            <summary>
+            Begins receiving data asynchronously.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ClientBase.Equals(TcpInteract.ClientBase)">
+            <summary>
+            
+            </summary>
+            <param name="other"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TcpInteract.ClientBase.Equals(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TcpInteract.ClientBase.GetHashCode">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TcpInteract.ClientBase.op_Equality(TcpInteract.ClientBase,TcpInteract.ClientBase)">
+            <summary>
+            
+            </summary>
+            <param name="left"></param>
+            <param name="right"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TcpInteract.ClientBase.op_Inequality(TcpInteract.ClientBase,TcpInteract.ClientBase)">
+            <summary>
+            
+            </summary>
+            <param name="left"></param>
+            <param name="right"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TcpInteract.ClientBase.Dispose">
+            <summary>
+            Releases all resources associated with this instance.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ClientBase.ToString">
+            <summary>
+            Returns a string that represents the current object.
+            </summary>
+            <returns>
+            A string that represents the current object.
+            </returns>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="T:TcpInteract.ClientInfo">
+            <summary>
+            Represents significant information about a <see cref="T:TcpInteract.ClientBase"/> instance.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ClientInfo.Status">
+            <summary>
+            Gets the connection status of the client.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ClientInfo.Name">
+            <summary>
+            Gets the name of the client.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ClientInfo.ConnectionTime">
+            <summary>
+            Gets the time in which this client has established a connection. 
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ClientInfo.LoggedInTime">
+            <summary>
+            Gets the time in which this client has logged in. 
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ClientInfo.#ctor(TcpInteract.ClientStatus,System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+            <summary>
+            Initializes a new instance of the <see cref="T:TcpInteract.ClientInfo"/> class with the
+            specified arguments.
+            </summary>
+            <param name="status">The connection status of the client.</param>
+            <param name="name">The name of the client.</param>
+            <param name="connectionTime">The time in which this client has established a connection. </param>
+            <param name="loggedInTime">The time in which this client has logged in. </param>
+        </member>
+        <member name="M:TcpInteract.ClientInfo.FromClient(TcpInteract.ClientBase)">
+            <summary>
+            Gets the significant information from a client.
+            </summary>
+            <param name="client">The client to extract the information from.</param>
+            <returns>Null, if <para>client</para> is null.</returns>
+        </member>
+        <member name="M:TcpInteract.ClientInfo.GetLines(System.String)">
+            <summary>
+            Gets the client info as an array of strings.
+            </summary>
+            <param name="format">The format to use for each line. {0} is the name
+            of the property and {1} is the value.</param>
+        </member>
+        <member name="M:TcpInteract.ClientInfo.ToString">
+            <summary>
+            Converts the instance to a single-line string.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ClientInfo.ToString(System.String,System.String)">
+            <summary>
+            Converts to a string that represents the current object.
+            </summary>
+            <param name="format">The format to use for individual lines. {0} is the name
+            of the property and {1} is the value.</param>
+            <param name="lineSeperator">The string to use in between lines.</param>
+        </member>
+        <member name="T:TcpInteract.ClientSideClient">
+            <summary>
+            Represents a TCP client to be used in client-side applications.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ClientSideClient.EndPoint">
+            <summary>
+            Get or sets the endpoint to connect to.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ClientSideClient.MaxConnectionAttempts">
+            <summary>
+            Gets or sets the maximum amount of attempts before the ConnectionAborted event raises
+            (0 is unlimited).
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ClientSideClient.ConnectionAttempts">
+            <summary>
+            Gets how many connection attempts have been made.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ClientSideClient.ConnectionAttemptInterval">
+            <summary>
+            Gets or sets how long to wait before trying to reconnect.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ClientSideClient.ClientNames">
+            <summary>
+            Gets a bindable list of client names.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ClientSideClient.OnConnectionRefused(TcpInteract.ConnectionRefusedContent)">
+            <summary>
+            Raises when the server has refused the connection of the client.
+            </summary>
+            <param name="content">Describes why the server rejected the client.</param>
+        </member>
+        <member name="M:TcpInteract.ClientSideClient.OnNamesReceived(TcpInteract.ClientNamesContent)">
+            <summary>
+            Raises when a list of client names has been received.
+            </summary>
+            <param name="content">Content that lists the names of all clients logged in.</param>
+        </member>
+        <member name="M:TcpInteract.ClientSideClient.OnLoggedIn(TcpInteract.LoginContent)">
+            <summary>
+            Raises when a client has logged in.
+            </summary>
+            <param name="content">Content to describe a successful client login.</param>
+        </member>
+        <member name="E:TcpInteract.ClientSideClient.ConnectionAttemptFailed">
+            <summary>
+            Occurs when a connection has been attempted and was failed.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ClientSideClient.OnConnectionAttemptFailed">
+            <summary>
+            Raises the <see cref="E:TcpInteract.ClientSideClient.ConnectionAttemptFailed"/> event.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ClientSideClient.OnServerClosed(TcpInteract.ServerClosedContent)">
+            <summary>
+            Raises when the server has closed.
+            </summary>
+            <param name="content">Content describing the occurrence.</param>
+        </member>
+        <member name="M:TcpInteract.ClientSideClient.OnLoggedOut(TcpInteract.LogoutContent)">
+            <summary>
+            Raises when a client logs out.
+            </summary>
+            <param name="content">Content that describes what client has logged out and for what reason.</param>
+        </member>
+        <member name="M:TcpInteract.ClientSideClient.AbortConnect">
+            <summary>
+            Stops the connector from trying to connect. Does not guarantee abortion.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ClientSideClient.Syncronize">
+            <summary>
+            Request synchronization data.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ClientSideClient.OnPackageReceived(TcpInteract.Package)">
+            <summary>
+            Raises when a client received a completed <see cref="T:TcpInteract.Package"/>.
+            </summary>
+            <param name="package">The package that has been received.</param>
+        </member>
+        <member name="M:TcpInteract.ClientSideClient.Logout">
+            <summary>
+            Sends a logout message to the server. There is no need to call <see cref="M:TcpInteract.ClientBase.Dispose"/>
+            right after calling this method.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">Thrown when the client is not logged in.</exception>
+        </member>
+        <member name="M:TcpInteract.ClientSideClient.Logout(TcpInteract.LogoutReason)">
+            <summary>
+            Sends a logout message to the server. There is no need to call <see cref="M:TcpInteract.ClientBase.Dispose"/>
+            right after calling this method.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ClientSideClient.RequestLogin">
+            <summary>
+            Try to connect, according to the set <see cref="P:TcpInteract.ClientSideClient.MaxConnectionAttempts"/>, asynchronously.
+            </summary>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:TcpInteract.AlreadyLoggedInException"></exception>
+        </member>
+        <member name="T:TcpInteract.BaseCommands">
+            <summary>
+            Commands to be used for both the server and client.
+            </summary>
+        </member>
+        <member name="F:TcpInteract.BaseCommands.Syncronize">
+            <summary>
+            Client to Server: The client is requesting initial data so it may synchronize with
+            the server and/or other clients.
+            </summary>
+        </member>
+        <member name="F:TcpInteract.BaseCommands.Login">
+            <summary>
+            Client To Server: A request to login.
+            Server To Client: The server has approved of the login.
+            </summary>
+        </member>
+        <member name="F:TcpInteract.BaseCommands.ConnectionRefused">
+            <summary>
+            Server To Client: That the clients attempt to connect or login has been refused.
+            The content of the corresponding package will contain an error code specifying what was invalid.
+            </summary>
+        </member>
+        <member name="F:TcpInteract.BaseCommands.Logout">
+            <summary>
+            Server To Client: A client has logged out.
+             Client To Server: A client has disconnected.
+            </summary>
+        </member>
+        <member name="F:TcpInteract.BaseCommands.ServerClosed">
+            <summary>
+            Server To Client: The server has been closed.
+            </summary>
+        </member>
+        <member name="F:TcpInteract.BaseCommands.ClientNames">
+            <summary>
+            Client To Server: Requests a list of client names.
+            Server To Client: The content is a list of client names separated by '|'.
+            </summary>
+        </member>
+        <member name="T:TcpInteract.ConnectionRefusedReason">
+            <summary>
+            Describes the possible reasons why a connection may be refused.
+            </summary>
+        </member>
+        <member name="F:TcpInteract.ConnectionRefusedReason.None">
+            <summary>
+            No reason.
+            </summary>
+        </member>
+        <member name="F:TcpInteract.ConnectionRefusedReason.EmptyName">
+            <summary>
+            Name is null, empty, or whitespace.
+            </summary>
+        </member>
+        <member name="F:TcpInteract.ConnectionRefusedReason.NameExists">
+            <summary>
+            A logged in client already has that name.
+            </summary>
+        </member>
+        <member name="F:TcpInteract.ConnectionRefusedReason.NameHasInvalids">
+            <summary>
+            Name has invalid characters.
+            </summary>
+        </member>
+        <member name="F:TcpInteract.ConnectionRefusedReason.NoLogin">
+            <summary>
+            The client connected but did not log in soon enough.
+            </summary>
+        </member>
+        <member name="T:TcpInteract.LogoutReason">
+            <summary>
+            Specifies the reason for the logout.
+            </summary>
+        </member>
+        <member name="F:TcpInteract.LogoutReason.UserSpecified">
+            <summary>
+            The user has initiated the logout. This almost always indicates a graceful disconnect.
+            </summary>
+        </member>
+        <member name="F:TcpInteract.LogoutReason.TimeOut">
+            <summary>
+            The client has lost connection ungracefully.
+            </summary>
+        </member>
+        <member name="F:TcpInteract.LogoutReason.Kicked">
+            <summary>
+            The client has been kicked by the server.
+            </summary>
+        </member>
+        <member name="T:TcpInteract.ClientStatus">
+            <summary>
+            Specifies the connection status of the client.
+            </summary>
+        </member>
+        <member name="F:TcpInteract.ClientStatus.Disconnected">
+            <summary>
+            The client is not connected to any server.
+            </summary>
+        </member>
+        <member name="F:TcpInteract.ClientStatus.Connected">
+            <summary>
+            The client is connected to a server but not logged in.
+            </summary>
+        </member>
+        <member name="F:TcpInteract.ClientStatus.LoggedIn">
+            <summary>
+            The client is logged in. It has been approved by the server.
+            </summary>
+        </member>
+        <member name="T:TcpInteract.ServerClosedContent">
+            <summary>
+            Content that indicates the server has closed.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ServerClosedContent.Message">
+            <summary>
+            Gets the message the server has for its clients. Example: The reason why
+            the server was closed.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ServerClosedContent.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TcpInteract.ServerClosedContent"/> class
+            with the specified argument.
+            </summary>
+            <param name="message">The message the server has for its clients.</param>
+        </member>
+        <member name="T:TcpInteract.ConnectionRefusedContent">
+            <summary>
+            Content that indicates what client was Kicked and for what reason.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ConnectionRefusedContent.Reason">
+            <summary>
+            Gets the reason in which the indicated client has been refused.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ConnectionRefusedContent.ClientName">
+            <summary>
+            Gets the name of the client that has been refused.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ConnectionRefusedContent.#ctor(TcpInteract.ConnectionRefusedReason,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TcpInteract.ConnectionRefusedContent"/> class
+            with the specified arguments.
+            </summary>
+            <param name="reason">The reason in which the indicated client has been refused.</param>
+            <param name="clientName">The name of the client that has been refused.</param>
+        </member>
+        <member name="T:TcpInteract.ClientNamesContent">
+            <summary>
+            Content that lists the names of all clients logged in.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ClientNamesContent.Names">
+            <summary>
+            Gets the client names received.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ClientNamesContent.Count">
+            <summary>
+            Gets how many client names were received.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ClientNamesContent.#ctor(System.String[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:TcpInteract.ClientNamesContent"/> class
+            with the specified argument.
+            </summary>
+            <param name="names">The client names received.</param>
+        </member>
+        <member name="T:TcpInteract.LogoutContent">
+            <summary>
+            Content that describes what client has logged out and for what reason.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.LogoutContent.Reason">
+            <summary>
+            Gets the reason in which the client has logged out.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.LogoutContent.ClientName">
+            <summary>
+            Gets the name of the client that was logged out.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.LogoutContent.Message">
+            <summary>
+            Gets the outro message for the logout. For instance, a goodbye message
+            for willful logouts or a server kick message describing the nature of the kick.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.LogoutContent.#ctor(System.String,TcpInteract.LogoutReason,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TcpInteract.LogoutContent"/> class
+            with the specified arguments.
+            </summary>
+            <param name="clientName">The name of the client that has logged out.</param>
+            <param name="reason">The reason in which the client has logged out.</param>
+            <param name="message">The outro message for the logout.</param>
+        </member>
+        <member name="T:TcpInteract.LoginContent">
+            <summary>
+            Content to describe a successful client login.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.LoginContent.ClientName">
+            <summary>
+            Gets the name of the client that has logged in.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.LoginContent.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TcpInteract.LoginContent"/> class
+            with the specified arguments.
+            </summary>
+            <param name="clientName">The name of the client that has logged in.</param>
+        </member>
+        <member name="T:TcpInteract.ExtensionMethods">
+            <summary>
+            Provides extension methods to ease the development of networked applications.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ExtensionMethods.Append(System.Byte[],System.Byte[])">
+            <summary>
+            Combines two byte arrays into one larger array.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ExtensionMethods.TrimStart(System.Byte[],System.Int32)">
+            <summary>
+            Trims the specified amount of bytes off of the start of the array.
+            </summary>
+        </member>
+        <member name="T:TcpInteract.AlreadyLoggedInException">
+            <summary>
+            The exception that is thrown when trying to log in the client when it is already logged in.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.AlreadyLoggedInException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TcpInteract.AlreadyLoggedInException"/> class
+            with the specified arguments.
+            </summary>
+            <param name="message">The exception message.</param>
+            <param name="inner">The inner exception.</param>
+        </member>
+        <member name="T:TcpInteract.Package">
+            <summary>
+            Represents a command and the data that corresponds to the command.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.Package.Command">
+            <summary>
+            Gets the command that denotes what the package contains and what should be done
+            in response to the package being received.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.Package.Content">
+            <summary>
+            Gets the content of the package (the type is determined by the command).
+            </summary>
+        </member>
+        <member name="M:TcpInteract.Package.#ctor(System.Int32,System.Byte[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:TcpInteract.Package"/> class
+            with the specified arguments.
+            </summary>
+            <param name="command">The command/interaction to specify the meaning 
+            of the package and what is in the contents.</param>
+            <param name="content">The contents of the package (the type is determined by the Interaction).</param>
+        </member>
+        <member name="M:TcpInteract.Package.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TcpInteract.Package"/> class
+            with the specified arguments.
+            </summary>
+            <param name="command">The command/interaction to specify the meaning of the package and what is in the contents</param>
+        </member>
+        <member name="M:TcpInteract.Package.#ctor(TcpInteract.BaseCommands)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TcpInteract.Package"/> class
+            with the specified arguments.
+            </summary>
+            <param name="command">The command/interaction to specify the meaning 
+            of the package and what is in the contents.</param>
+        </member>
+        <member name="M:TcpInteract.Package.#ctor(TcpInteract.BaseCommands,System.Byte[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:TcpInteract.Package"/> class
+            with the specified arguments.
+            </summary>
+            <param name="command">The command/interaction to specify the meaning 
+            of the package and what is in the contents.</param>
+            <param name="content">The contents of the package (the type is determined by the Interaction).</param>
+        </member>
+        <member name="M:TcpInteract.Package.Serialize">
+            <summary>
+            Serializes the instance into bytes.
+            </summary>
+        </member>
+        <member name="T:TcpInteract.SerializableContent`1">
+            <summary>
+            Represents content that can be serialized and deserialized.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.SerializableContent`1.Serialize">
+            <summary>
+            Serialize object using <see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter"/>.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.SerializableContent`1.Deserialize(System.Byte[])">
+            <summary>
+            Deserialize data using <see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter"/>.
+            </summary>
+        </member>
+        <member name="T:TcpInteract.ISerializable">
+            <summary>
+            Implements functionality to serialize an instance.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ISerializable.Serialize">
+            <summary>
+            Implements an instance serializer.
+            </summary>
+        </member>
+        <member name="T:TcpInteract.Networking">
+            <summary>
+            Provides network-related functionality.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.Networking.GetPublicIpString">
+            <summary>
+            Gets the remote IP address of this machine.
+            </summary>
+            <exception cref="T:System.Data.DataException">The web content downloaded did not contain an address.</exception>
+            <exception cref="T:System.Net.WebException"></exception>
+        </member>
+        <member name="M:TcpInteract.Networking.GetPublicIpStringTaskAsync">
+            <summary>
+            Gets the remote IP address of this machine asynchronously.
+            </summary>
+            <exception cref="T:System.Data.DataException">The web content downloaded did not contain an address.</exception>
+            <exception cref="T:System.Net.WebException"></exception>
+        </member>
+        <member name="T:TcpInteract.ServerBase">
+            <summary>
+            Provides the base functionality for a <see cref="N:TcpInteract"/> TCP server.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ServerBase.RefusePattern">
+            <summary>
+            Gets or sets the pattern that when matched on a client name, will refuse the client.
+            The default pattern will not allow users to login with certain chars.
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="P:TcpInteract.ServerBase.BufferSize">
+            <summary>
+            Gets or sets the send and receive buffer size for the server socket.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ServerBase.PollWait">
+            <summary>
+            Gets or sets the time to wait (in microseconds) for a response when polling a connection.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ServerBase.SolicitorCheckInterval">
+            <summary>
+            Gets or sets the time, in milliseconds, to wait between solicitor checks.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ServerBase.TimedOutCheckInterval">
+            <summary>
+            Gets or sets the time, in milliseconds, to wait between checks for timed
+            out clients.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ServerBase.SolicitorThreshold">
+            <summary>
+            Gets or sets the time, in milliseconds, in which a client has to be connected
+            but not logged in to be considered a solicitor. Solicitors are disconnected from
+            the server once identified. A value of 3000 means that a client can be connected for
+            3 seconds without logging in, before the server disconnects the client.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ServerBase.Port">
+            <summary>
+            Gets the port number to listen on (1 - 65,535).
+            </summary>
+        </member>
+        <member name="F:TcpInteract.ServerBase.clients">
+            <summary>
+            Gets the clients currently connected to this server.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ServerBase.Clients">
+            <summary>
+            Gets a read-only list of all connected clients.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ServerBase.ClientNames">
+            <summary>
+            Gets a bindable, read-only list of client names.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ServerBase.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TcpInteract.ServerBase"/> class
+            with the specified argument.
+            </summary>
+            <param name="port">The port to bind to.</param>
+        </member>
+        <member name="M:TcpInteract.ServerBase.OnConnectionRefused(TcpInteract.ConnectionRefusedContent)">
+            <summary>
+            Raised when the server refuses the connection of a client.
+            </summary>
+            <param name="content">Describes why the client has been refused.</param>
+        </member>
+        <member name="M:TcpInteract.ServerBase.OnClientLoggedOut(TcpInteract.LogoutContent)">
+            <summary>
+            Raised when a client logs out.
+            </summary>
+            <param name="content">Describes the reason why the client logged out.</param>
+        </member>
+        <member name="M:TcpInteract.ServerBase.OnClientLoggedIn(System.String)">
+            <summary>
+            Raised when a client logs in.
+            </summary>
+            <param name="clientName">The name of the client that has logged in.</param>
+        </member>
+        <member name="M:TcpInteract.ServerBase.CheckForSolicitors">
+            <summary>
+            Looks for clients that are connected but not doing anything and removes them.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ServerBase.CheckForTimedOut">
+            <summary>
+            Looks for, and removes timed out clients.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ServerBase.SendClientNames(TcpInteract.ServerSideClient)">
+            <summary>
+            Sends the names of all of the clients which are logged in to a specified client.
+            </summary>
+            <param name="client">The client to send the names to.</param>
+        </member>
+        <member name="M:TcpInteract.ServerBase.GetClientInfo(System.String)">
+            <summary>
+            Gets the key information about the specified client.
+            </summary>
+            <param name="clientName">The name of the client.</param>
+            <returns>Null, if no client exists with the specified name.</returns>
+        </member>
+        <member name="M:TcpInteract.ServerBase.OnPackageReceived(TcpInteract.ServerSideClient,TcpInteract.Package)">
+            <summary>
+            When a client receives an entire package, this method is to be used to process it.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ServerBase.Synchronize(TcpInteract.ServerSideClient)">
+            <summary>
+            Sends synchronization data to the specified client.
+            </summary>
+            <param name="client">The client to send sync data to.</param>
+        </member>
+        <member name="M:TcpInteract.ServerBase.GetRefuseReason(System.String)">
+            <summary>
+            Checks the specified package for validity. If the name is valid, the method
+            yield None, otherwise it will have other flags set indicating obscurities.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ServerBase.Start(System.Int32)">
+            <summary>
+            Starts listening for clients.
+            </summary>
+            <exception cref="T:System.Net.Sockets.SocketException">Raises when socket address is already in use.</exception>
+            <param name="backlog">The maximum length of the pending connections queue.</param>
+        </member>
+        <member name="M:TcpInteract.ServerBase.Stop(System.String)">
+            <summary>
+            Stops the server.
+            </summary>
+            <exception cref="T:System.Net.Sockets.SocketException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:TcpInteract.ServerBase.ProcessLoginPackage(TcpInteract.ServerSideClient,TcpInteract.Package)">
+            <summary>
+            Analyzes the login package to see if it is a valid login. If it is, then login the client.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ServerBase.BroadcastPackage(TcpInteract.Package,TcpInteract.ServerSideClient,System.Boolean)">
+            <summary>
+            Sends the specified package to all connected clients except the specified one.
+            </summary>
+            <param name="package">The <see cref="T:TcpInteract.Package"/> to send to the clients.</param>
+            <param name="excludeClient">The client to exclude from the broadcast</param>
+            <param name="mustBeLoggedIn">Whether the package is sent to all connected clients or 
+            just the ones that are logged in.</param>
+        </member>
+        <member name="M:TcpInteract.ServerBase.BroadcastPackage(TcpInteract.Package,System.Boolean)">
+            <summary>
+            Sends the specified package to all connected clients.
+            </summary>
+            <param name="package">The <see cref="T:TcpInteract.Package"/> to send to all of the clients.</param>
+            <param name="mustBeLoggedIn">Whether the package is sent to all connected clients or 
+            just the ones that are logged in.</param>
+        </member>
+        <member name="M:TcpInteract.ServerBase.BroadcastPackageAsync(TcpInteract.Package,System.Boolean)">
+            <summary>
+            Sends the specified package to all connected clients asynchronously.
+            </summary>
+            <param name="package">The <see cref="T:TcpInteract.Package"/> to send to all of the clients.</param>
+            <param name="mustBeLoggedIn">Whether the package is sent to all connected clients or 
+            just the ones that are logged in.</param>
+        </member>
+        <member name="M:TcpInteract.ServerBase.BroadcastPackageAsync(TcpInteract.Package,TcpInteract.ServerSideClient,System.Boolean)">
+            <summary>
+            Sends the specified package asynchronously to all connected clients except the specified one.
+            </summary>
+            <param name="package">The <see cref="T:TcpInteract.Package"/> to send to the clients.</param>
+            <param name="excludeClient">The client to exclude from the broadcast</param>
+            <param name="mustBeLoggedIn">Whether the package is sent to all connected clients or 
+            just the ones that are logged in.</param>
+        </member>
+        <member name="M:TcpInteract.ServerBase.KickClient(System.String,System.String)">
+            <summary>
+            Boots the specified client from the server.
+            </summary>
+            <exception cref="T:System.ArgumentException">Client could not be found.</exception>
+        </member>
+        <member name="M:TcpInteract.ServerBase.Dispose">
+            <summary>
+            Releases all resources used by the <see cref="T:TcpInteract.ServerBase"/>.
+            </summary>
+        </member>
+        <member name="T:TcpInteract.ServerSideClient">
+            <summary>
+            Represents a TCP client to be used in server-side applications.
+            </summary>
+        </member>
+        <member name="T:TcpInteract.ServerSideClient.PackageReceivedHandler">
+            <summary>
+            Handles the <see cref="F:TcpInteract.ServerSideClient.PackageReceived"/> method and delegate.
+            </summary>
+            <param name="sender">This instance.</param>
+            <param name="args">The completed package.</param>
+        </member>
+        <member name="F:TcpInteract.ServerSideClient.PackageReceived">
+            <summary>
+            Occurs when a <see cref="T:TcpInteract.Package"/> has been received.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ServerSideClient.#ctor(System.Net.Sockets.Socket)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TcpInteract.ClientBase"/> class as a server-side client.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ServerSideClient.TimeStampLogin">
+            <summary>
+            Sets the <see cref="P:TcpInteract.ClientBase.LoggedInTime"/> to the time this method is called.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ServerSideClient.OnPackageReceived(TcpInteract.Package)">
+            <summary>
+            Raises when a client received a completed <see cref="T:TcpInteract.Package"/>.
+            </summary>
+            <param name="package">The package that has been received.</param>
+        </member>
+        <member name="M:TcpInteract.ServerSideClient.OnLoggedOut(TcpInteract.LogoutContent)">
+            <summary>
+            Raises when a client logs out.
+            </summary>
+            <param name="content">Content that describes what client has logged out and for what reason.</param>
+        </member>
+        <member name="T:TcpInteract.ContentPusher">
+            <summary>
+            Binds <see cref="T:System.Action"/>s to <see cref="T:System.Type"/>s to provide a simple notification system.
+            Objects are pushed to be relayed to any Action-Type binding that has the type of the object.
+            Instead of subscribing to solid events, types are subscribed to dynamically.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ContentPusher.Push``1(``0)">
+            <summary>
+            Push an argument into the <see cref="T:TcpInteract.ContentPusher"/> to be handled by any Action-Type binding.
+            </summary>
+            <param name="arg">The argument to be passed into Actions which handle the arguments type.</param>
+            <returns>How many actions were invoked.</returns>
+        </member>
+        <member name="M:TcpInteract.ContentPusher.Unbind``1(System.Action{``0})">
+            <summary>
+            Removes all subscriptions this delegate may have.
+            </summary>
+            <param name="action">The action to unsubscribe.</param>
+        </member>
+        <member name="M:TcpInteract.ContentPusher.Bind``1(System.Action{``0})">
+            <summary>
+            Subscribes an <see cref="T:System.Action"/> with one parameter.
+            </summary>
+            <typeparam name="T">The type of arguments the specified <see cref="T:System.Action"/> will handle.</typeparam>
+            <param name="action">The <see cref="T:System.Action"/> to handle arguments of the specified <see cref="T:System.Type"/>.</param>
+        </member>
+        <member name="T:TcpInteract.ContentPusher.TypeActionBinding">
+            <summary>
+            Binds <see cref="T:System.Action"/>s to <see cref="P:TcpInteract.ContentPusher.TypeActionBinding.Type"/>s.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ContentPusher.TypeActionBinding.Del">
+            <summary>
+            Gets the delegate which represents a handler for
+            the arguments of the specified type.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.ContentPusher.TypeActionBinding.Type">
+            <summary>
+            Gets the type of arguments to be handled by the method represented
+            by the specified delegate.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.ContentPusher.TypeActionBinding.#ctor(System.Delegate,System.Type)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TcpInteract.ContentPusher.TypeActionBinding"/> class
+            with the specified arguments.
+            </summary>
+            <param name="del">The delegate which represents a handler for
+            the arguments of the specified type.</param>
+            <param name="type">The type of arguments to be handled by the method represented
+            by the specified delegate.</param>
+        </member>
+        <member name="T:TcpInteract.UiContext">
+            <summary>
+            Represents the UI's execution context.
+            </summary>
+        </member>
+        <member name="F:TcpInteract.UiContext.Default">
+            <summary>
+            The only instance of the <see cref="T:TcpInteract.UiContext"/> class.
+            </summary>
+        </member>
+        <member name="P:TcpInteract.UiContext.Initialized">
+            <summary>
+            Gets whether this instance has been initialized.
+            </summary>
+        </member>
+        <member name="M:TcpInteract.UiContext.Initialize">
+            <summary>
+            Initializes the internal synchronization context. Only call this when the
+            UI <see cref="T:System.Threading.SynchronizationContext"/> is available (after a UI element has been created).
+            </summary>
+            <returns>True, if the context was successfully initialized. Otherwise false.</returns>
+            <exception cref="T:System.InvalidOperationException">The UI Context could not initialize at this time.</exception>
+        </member>
+        <member name="M:TcpInteract.UiContext.Invoke(System.Action)">
+            <summary>
+            Invokes an <see cref="T:System.Action"/> on the UI thread.
+            </summary>
+        </member>
+    </members>
+</doc>
