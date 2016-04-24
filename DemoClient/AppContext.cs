@@ -132,7 +132,7 @@ namespace DemoClient
                     formLogin.Hide();
                     formMessenger.SetClientName(client.Name);
                     formMessenger.Show();
-                    client.Syncronize();
+                    client.Synchronize();
                     formMessenger.SetDebugInfo(ClientInfo.FromClient(client).GetLines());
                     break;
             }

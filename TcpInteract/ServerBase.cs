@@ -190,7 +190,7 @@ namespace TcpInteract
 
                 case BaseCommands.Login: ProcessLoginPackage(client, e); break;
 
-                case BaseCommands.Syncronize:
+                case BaseCommands.Sync:
                     Synchronize(client);
                     break;
             }

@@ -13,7 +13,7 @@ namespace TcpInteract
         /// Client to Server: The client is requesting initial data so it may synchronize with
         /// the server and/or other clients.
         /// </summary>
-        Syncronize = -100,
+        Sync = -100,
         /// <summary>
         /// Client To Server: A request to login.
         /// Server To Client: The server has approved of the login.

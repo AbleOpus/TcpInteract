@@ -176,9 +176,9 @@ namespace TcpInteract
         /// <summary>
         /// Request synchronization data.
         /// </summary>
-        public void Syncronize()
+        public void Synchronize()
         {
-            SendPackageAsyncBase((int)BaseCommands.Syncronize);
+            SendPackageAsyncBase((int)BaseCommands.Sync);
         }
 
         /// <summary>
