@@ -1,6 +1,0 @@
-D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\TcpInteract\bin\Release\TcpInteract.XML
-D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\TcpInteract\bin\Release\TcpInteract.dll
-D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\TcpInteract\bin\Release\TcpInteract.pdb
-D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\TcpInteract\obj\Release\TcpInteract.dll
-D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\TcpInteract\obj\Release\TcpInteract.pdb
-D:\Documents\Visual Studio 2015\Projects\Class Libraries\TcpInteract\TcpInteract\obj\Release\TcpInteract.csprojResolveAssemblyReference.cache
