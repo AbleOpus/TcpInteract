@@ -25,7 +25,7 @@ namespace TcpInteract
         /// </summary>
         /// <param name="command">The command/interaction to specify the meaning 
         /// of the package and what is in the contents.</param>
-        /// <param name="content">The contents of the package (the type is determined by the Interaction).</param>
+        /// <param name="content">The contents of the package.</param>
         public Package(int command, byte[] content) : this(command)
         {
             Content = content;
@@ -35,7 +35,19 @@ namespace TcpInteract
         /// Initializes a new instance of the <see cref="Package"/> class
         /// with the specified arguments.
         /// </summary>
-        /// <param name="command">The command/interaction to specify the meaning of the package and what is in the contents</param>
+        /// <param name="command">The command/interaction to specify the meaning 
+        /// of the package and what is in the contents.</param>
+        /// <param name="serializable">The contents of the package.</param>
+        public Package(int command, ISerializable serializable) : this(command)
+        {
+            Content = serializable.Serialize();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Package"/> class
+        /// with the specified arguments.
+        /// </summary>
+        /// <param name="command">The command to specify the meaning of the package and what is in the contents.</param>
         public Package(int command)
         {
             Command = command;
@@ -45,17 +57,14 @@ namespace TcpInteract
         /// Initializes a new instance of the <see cref="Package"/> class
         /// with the specified arguments.
         /// </summary>
-        /// <param name="command">The command/interaction to specify the meaning 
-        /// of the package and what is in the contents.</param>
+        /// <param name="command">The command to specify the meaning of the package and what is in the contents.</param>
         internal Package(BaseCommands command)
                  : this((int)command) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Package"/> class
-        /// with the specified arguments.
+        /// Initializes a new instance of the <see cref="Package"/> class with the specified arguments.
         /// </summary>
-        /// <param name="command">The command/interaction to specify the meaning 
-        /// of the package and what is in the contents.</param>
+        /// <param name="command">The command/interaction to specify the meaning of the package and what is in the contents.</param>
         /// <param name="content">The contents of the package (the type is determined by the Interaction).</param>
         internal Package(BaseCommands command, byte[] content)
             : this(command)
