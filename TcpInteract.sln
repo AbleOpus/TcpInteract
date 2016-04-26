@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoShared", "DemoShared\De
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTesting", "UnitTesting\UnitTesting.csproj", "{A74D61F2-27CD-4D07-BA4C-6735B378953B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcpInteract.Forms", "TcpInteract.Forms\TcpInteract.Forms.csproj", "{5D73A930-2D2D-4032-8A7C-F7DADC1A1C6F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{A74D61F2-27CD-4D07-BA4C-6735B378953B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A74D61F2-27CD-4D07-BA4C-6735B378953B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A74D61F2-27CD-4D07-BA4C-6735B378953B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D73A930-2D2D-4032-8A7C-F7DADC1A1C6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D73A930-2D2D-4032-8A7C-F7DADC1A1C6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D73A930-2D2D-4032-8A7C-F7DADC1A1C6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D73A930-2D2D-4032-8A7C-F7DADC1A1C6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

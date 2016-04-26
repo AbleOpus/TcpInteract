@@ -17,15 +17,7 @@ namespace DemoServer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-#if DEBUG
-            var cmds = Utilities.GetConflictingCommands();
-
-            if (cmds.Any())
-                Debugger.Break();
-#endif
-
-            Application.Run(new MainForm());
+            Application.Run(new AppContext());
         }
     }
 }

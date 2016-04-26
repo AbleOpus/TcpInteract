@@ -97,7 +97,7 @@ namespace DemoClient.Forms
 
         private void buttonSendScreen_Click(object sender, EventArgs e)
         {
-            if (listBoxClientNames.SelectedItem != null)
+            if (listBoxClientNames.SelectedIndex != -1)
             {
                 SendScreenClick(this, ((ClientCursorContent) listBoxClientNames.SelectedItem).ClientName);
             }
