@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Text;
 
 namespace TcpInteract
@@ -28,6 +29,8 @@ namespace TcpInteract
         /// </summary>
         public DateTime? LoggedInTime { get; }
 
+        public IPAddress IP { get; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ClientInfo"/> class with the
         /// specified arguments.
@@ -36,12 +39,13 @@ namespace TcpInteract
         /// <param name="name">The name of the client.</param>
         /// <param name="connectionTime">The time in which this client has established a connection. </param>
         /// <param name="loggedInTime">The time in which this client has logged in. </param>
-        private ClientInfo(ClientStatus status, string name, DateTime? connectionTime, DateTime? loggedInTime)
+        private ClientInfo(ClientStatus status, string name, DateTime? connectionTime, DateTime? loggedInTime, IPAddress ip)
         {
             Status = status;
             Name = name;
             ConnectionTime = connectionTime;
             LoggedInTime = loggedInTime;
+            IP = ip;
         }
 
         /// <summary>
@@ -58,7 +62,8 @@ namespace TcpInteract
                 client.Status,
                 client.Name,
                 client.ConnectionTime,
-                client.LoggedInTime);
+                client.LoggedInTime,
+                ((IPEndPoint)client.Socket.RemoteEndPoint).Address);
         }
 
         /// <summary>
@@ -76,7 +81,8 @@ namespace TcpInteract
                 String.Format(format, nameof(Name), Name),
                 String.Format(format, nameof(Status), Status),
                 String.Format(format, nameof(ConnectionTime), ctVal),
-                String.Format(format, nameof(LoggedInTime), litVal)
+                String.Format(format, nameof(LoggedInTime), litVal),
+                String.Format(format, nameof(IP), IP)
             };
         }
 
@@ -85,7 +91,7 @@ namespace TcpInteract
         /// </summary>
         public override string ToString()
         {
-            return $"Status: {Status}, Name: {Name}, ConnectionTime: {ConnectionTime}, LoggedInTime: {LoggedInTime}";
+            return $"Status: {Status}, Name: {Name}, ConnectionTime: {ConnectionTime}, LoggedInTime: {LoggedInTime}, IP: {IP}";
         }
 
         /// <summary>
