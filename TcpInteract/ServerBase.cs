@@ -525,8 +525,16 @@ namespace TcpInteract
             timerTimedOutChecker.Dispose();
         }
 
+        /// <summary>
+        /// Occurs when the value of a bindable property has changed.
+        /// </summary>
+        [Browsable(false)]
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Raises the <see cref="PropertyChanged"/> event.
+        /// </summary>
+        /// <param name="propertyName"></param>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

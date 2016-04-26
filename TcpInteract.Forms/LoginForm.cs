@@ -108,6 +108,9 @@ namespace TcpInteract.Forms
             remove { buttonCancel.Click -= value; }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LoginForm"/> class.
+        /// </summary>
         public LoginForm()
         {
             InitializeComponent();

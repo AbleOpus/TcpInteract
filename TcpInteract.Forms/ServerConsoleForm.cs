@@ -6,16 +6,31 @@ using System.Windows.Forms;
 
 namespace TcpInteract.Forms
 {
+    /// <summary>
+    /// Represents Form for controlling a server via a command-line interface.
+    /// </summary>
     public partial class ServerConsoleForm : Form
     {
+        /// <summary>
+        /// Occurs when a command has been submitted with the input control.
+        /// </summary>
         public event EventHandler<string> CommandSubmitted = delegate { };
 
+        /// <summary>
+        /// Gets the RichTextBox used for output. 
+        /// </summary>
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public RichTextBox OutputTextBox => textBoxOutput;
 
+        /// <summary>
+        /// Gets the RichTextBox used for input. 
+        /// </summary>
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public RichTextBox InputTextBox => textBoxOutput;
 
+        /// <summary>
+        /// Gets or sets the foreground color of the form and its children.
+        /// </summary>
         public override Color BackColor
         {
             get { return base.BackColor; }
@@ -26,6 +41,9 @@ namespace TcpInteract.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets the foreground color of the form and its children.
+        /// </summary>
         public override Color ForeColor
         {
             get { return base.ForeColor; }
@@ -36,20 +54,20 @@ namespace TcpInteract.Forms
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ServerConsoleForm"/> class.
+        /// </summary>
         public ServerConsoleForm()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Clears the output window.
+        /// </summary>
         public void ClearOutput()
         {
             textBoxOutput.Clear();
-        }
-
-        public bool WordWrapOutput
-        {
-            get { return textBoxOutput.WordWrap; }
-            set { textBoxOutput.WordWrap = value; }
         }
 
         /// <summary>

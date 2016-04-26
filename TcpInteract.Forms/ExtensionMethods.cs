@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TcpInteract.Forms
 {
+    /// <summary>
+    /// Provides extension methods for WinForms controls.
+    /// </summary>
     public static class ExtensionMethods
     {
         /// <summary>
