@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,14 +15,30 @@ namespace TcpInteract
     /// <summary>
     /// Provides the base functionality for a <see cref="TcpInteract"/> TCP server.
     /// </summary>
-    public abstract class ServerBase : IDisposable
+    public abstract class ServerBase : IDisposable, INotifyPropertyChanged
     {
         private readonly Timer timerSolicitorChecker = new Timer();
         private readonly Timer timerTimedOutChecker = new Timer();
         private Socket serverSocket;
-        private bool enabled;
 
         #region Properties
+        private bool enabled;
+        /// <summary>
+        /// Gets whether the server is started or stopped.
+        /// </summary>
+        public bool Enabled
+        {
+            get { return enabled; }
+            private set
+            {
+                if (value != enabled)
+                {
+                    enabled = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         /// <summary>
         /// Gets the content pusher notification system for the server.
         /// </summary>
@@ -99,8 +116,8 @@ namespace TcpInteract
                     throw new ArgumentOutOfRangeException(nameof(value), "The value must be greater than or equal to 50. "
                         + "Any value under 50 will not give clients ample time to login.");
                 }
-                solicitorThreshold = value;
 
+                solicitorThreshold = value;
             }
         }
 
@@ -119,6 +136,7 @@ namespace TcpInteract
         protected IReadOnlyList<ServerSideClient> Clients => clients;
 
         private readonly BindingList<string> clientNames = new BindingList<string>();
+
         /// <summary>
         /// Gets a bindable, read-only list of client names.
         /// </summary>
@@ -243,7 +261,7 @@ namespace TcpInteract
                 // 500 ms wait time.
                 bool isInactive = await clients[i].IsInactiveTaskAsync(PollWait);
 
-                if (isInactive)
+                if (isInactive && i < clients.Count)
                 {
                     var args = new LogoutContent(clients[i].Name, LogoutReason.TimedOut);
                     UiContext.Default.Invoke(OnClientLoggedOut, args);
@@ -317,7 +335,7 @@ namespace TcpInteract
             serverSocket.BeginAccept(AcceptCallback, null);
             timerSolicitorChecker.Start();
             timerTimedOutChecker.Start();
-            enabled = true;
+            Enabled = true;
         }
 
         /// <summary>
@@ -343,9 +361,8 @@ namespace TcpInteract
 
                 clients.Clear();
                 clientNames.Clear();
-                enabled = false;
+                Enabled = false;
                 serverSocket.Close();
-
             }
         }
 
@@ -496,8 +513,9 @@ namespace TcpInteract
                 throw new ArgumentException($@"Client ""{name}"" not found.", nameof(name));
             }
 
-            var args = new LogoutContent(name, LogoutReason.Kicked, reason);
-            var package = new Package((int)BaseCommands.Logout, args.Serialize());
+            var content = new LogoutContent(name, LogoutReason.Kicked, reason);
+            var package = new Package((int)BaseCommands.Logout, content);
+            OnClientLoggedOut(content);
             BroadcastPackage(package);
             clientNames.Remove(client.Name);
             client.Socket.Shutdown(SocketShutdown.Both);
@@ -513,6 +531,13 @@ namespace TcpInteract
             Stop();
             timerSolicitorChecker.Dispose();
             timerTimedOutChecker.Dispose();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
