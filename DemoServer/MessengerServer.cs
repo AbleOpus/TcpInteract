@@ -14,6 +14,17 @@ namespace DemoServer
 
         public MessengerServer(int port) : base(port) { }
 
+        /// <summary>
+        /// Evaluates a client name to see if it is valid. If this method yields false,
+        /// the corresponding client will be rejected.
+        /// </summary>
+        /// <param name="clientName">The client name to validate.</param>
+        /// <returns>True, if the client name is longer than 3 characters.</returns>
+        protected override bool ClientNameValidPredicate(string clientName)
+        {
+            return clientName.Length > 3;
+        }
+
         protected override void Synchronize(ServerSideClient client)
         {
             base.Synchronize(client);
