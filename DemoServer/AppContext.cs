@@ -31,7 +31,16 @@ namespace DemoServer
             server.Pusher.Bind<LoginContent>(e => form.WriteLine($@"{e.ClientName} has logged in."));
             server.Pusher.Bind<LogoutContent>(e => form.WriteLine($@"{e.ClientName} has logged out. Reason: {e.Reason}."));
             server.Pusher.Bind<ConnectionRefusedContent>(e =>
-                form.WriteLine($@"{e.ClientName} has been refused, reasons: {e.Reason}."));
+            {
+                if (e.Reason == ConnectionRefusedReason.EmptyName)
+                {
+                    form.WriteLine("A client tried to login with an empty name.");
+                }
+                else
+                {
+                    form.WriteLine($@"{e.ClientName} has been refused, reasons: {e.Reason}.");
+                }
+            });
 
             form.CommandSubmitted += ConsoleCommandSubmitted;
             server.Start();
@@ -90,7 +99,6 @@ namespace DemoServer
 
             // Command didn't execute properly. Check to see if any methods correspond
             // to one of the potential issues.
-
             if (doesNotTakeArgs != null)
             {
                 form.WriteLine($@"The ""{doesNotTakeArgs}"" command does not take an argument.");
