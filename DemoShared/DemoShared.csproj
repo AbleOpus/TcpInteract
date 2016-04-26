@@ -7,8 +7,8 @@
     <ProjectGuid>{8BD54718-AC57-41AA-AD29-069573BCB226}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestShared</RootNamespace>
-    <AssemblyName>TestShared</AssemblyName>
+    <RootNamespace>DemoShared</RootNamespace>
+    <AssemblyName>DemoShared</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
