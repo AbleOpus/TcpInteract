@@ -44,24 +44,6 @@ namespace TcpInteract
         /// </summary>
         public ContentPusher Pusher { get; } = new ContentPusher();
 
-        private string refusePattern;
-        /// <summary>
-        /// Gets or sets the pattern that when matched on a client name, will refuse the client.
-        /// The default pattern will not allow users to login with certain chars.
-        /// </summary>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="ArgumentNullException"></exception>
-        public string RefusePattern
-        {
-            get { return refusePattern; }
-            set
-            {
-                // Check pattern.
-                Regex regex = new Regex(value);
-                refusePattern = value;
-            }
-        }
-
         /// <summary>
         /// Gets or sets the send and receive buffer size for the server socket.
         /// </summary>
@@ -312,14 +294,24 @@ namespace TcpInteract
             if (String.IsNullOrWhiteSpace(clientName))
                 return ConnectionRefusedReason.EmptyName;
 
-            // The name cannot match the refuse pattern and cannot be the same as the servers name
-            if (!String.IsNullOrEmpty(refusePattern) && Regex.IsMatch(clientName, refusePattern))
-                reason |= ConnectionRefusedReason.RegexInvalidated;
+            if (!ClientNameValidPredicate(clientName))
+                reason |= ConnectionRefusedReason.CustomInvalid;
 
-            if (clients.Any(c => clientName == c.Name))
+            if (clients.Any(c => clientName.Equals(c.Name, StringComparison.Ordinal)))
                 reason |= ConnectionRefusedReason.NameExists;
 
             return reason;
+        }
+
+        /// <summary>
+        /// Evaluates a client name to see if it is valid. If this method yields false,
+        /// the corresponding client will be rejected.
+        /// </summary>
+        /// <param name="clientName">The client name to validate.</param>
+        /// <returns>True.</returns>
+        protected virtual bool ClientNameValidPredicate(string clientName)
+        {
+            return true;
         }
 
         /// <summary>
