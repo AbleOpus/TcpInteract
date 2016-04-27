@@ -43,7 +43,8 @@ namespace DemoServer
             });
 
             form.CommandSubmitted += ConsoleCommandSubmitted;
-            server.Start();
+            HelpCmd();
+            StartCmd();
         }
 
         private void ConsoleCommandSubmitted(object sender, string cmd)
@@ -196,12 +197,17 @@ namespace DemoServer
             {
                 var attrib = method.GetCustomAttribute<DescriptionAttribute>();
                 bool takesArgument = method.GetParameters().Length == 1;
+                string command = method.Name.Remove(method.Name.Length - 3, 3);
+                string argIndicator = takesArgument ? "{argument} " : string.Empty;
 
-                if (attrib != null)
+                if (attrib == null)
                 {
-                    string command = method.Name.Remove(method.Name.Length - 3, 3);
-                    string argIndicator = takesArgument ? "{argument} " : string.Empty;
+                    form.WriteLine($@"{INDENT} {command} {argIndicator}- N/A");
+                }
+                else
+                {
                     form.WriteLine($@"{INDENT} {command} {argIndicator}- {attrib.Description}");
+
                 }
             }
 

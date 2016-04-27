@@ -82,7 +82,6 @@ namespace TcpInteract
             if (!InvokeRequired)
             {
                 Debug.WriteLine($@"Invoke not required with method ""{action.Method}""");
-                //throw new InvalidOperationException("Invoke unnecessary here.");
             }
 #endif
         }
