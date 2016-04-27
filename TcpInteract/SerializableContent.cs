@@ -11,7 +11,7 @@ namespace TcpInteract
     public abstract class SerializableContent<T> : ISerializable where T : SerializableContent<T>
     {
         /// <summary>
-        /// Serialize object using <see cref="BinaryFormatter"/>.
+        /// Serialize the instance using <see cref="BinaryFormatter"/>.
         /// </summary>
         public byte[] Serialize()
         {
