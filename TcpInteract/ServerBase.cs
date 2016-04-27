@@ -516,7 +516,7 @@ namespace TcpInteract
         }
 
         /// <summary>
-        /// Releases all resources used by the <see cref="ServerBase"/>.
+        /// Stops the server and releases all resources used by the <see cref="ServerBase"/>.
         /// </summary>
         public virtual void Dispose()
         {
