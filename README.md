@@ -23,6 +23,12 @@ Subscribe:
 Pusher.Bind<LoginContent>(e => SubmitLog($@"{e.ClientName} has logged in."));
 ```
 
+Or
+
+``` C#
+Pusher.Bind((LoginContent e) => SubmitLog($@"{e.ClientName} has logged in."));
+```
+
 Unsubscribe:
 
 ``` C#
@@ -32,10 +38,38 @@ Pusher.Unbind<LoginContent>(ProcessLoginContent);
 In essence, no publisher needs to be defined, the publisher is the “Pusher” property defined in both the ServerBase and ClientSideClient classes. The publisher was initially a singleton but this would introduce problems when the server is implemented in the same application as the client-side client. 
 
 ## The Projects
-The solution consists of five projects: the class library, a demo client, demo server, a unit test, and a library which contains shared types to be used by the demo server and client. They demonstrate the typical usage of a simple networking library. They provide a simple chat environment. The demo client streams the client’s cursor position to all other clients every 100 milliseconds. This demonstrates the (supposed) robustness of the library (Clients should be able to send and receive around connecting and disconnecting without raising any exceptions). The demo client is also capable of sending a screenshot to another client. This demonstrates the “receive past buffer size” capability. The demo client has a button that forcibly disposes of its socket, to further demonstrate the robustness of the library. The demo client and server run on port 2059. To use these apps remotely, port 2059 must be forwarded.
+The solution consists of six projects, each targeting .NET Framework 4.6:
+
+    TcpInteract: The main project, having a fairly flat namespace.
+    DemoClient: A demonstration client, currently an instant messenger application The demo clients send and receive text messages, screenshots, and the users cursor position. Connects to port 2059.
+    DemoServer: A command line interface to connect DemoClient applications. Binds to port 2059.
+    DemoShared: Provides common types and commands to both the DemoServer and DemoShared project.
+    UnitTesting: Provides unit testing for various things.
+    TcpInteract.Forms: Provides WinForms helpers. It provides a login Form, which is used by the demo client, and a console command Form, which is used by the server demo.
+
+The demo server has a console command system that is enabled via reflections. Commands can be added by simply declaring a method with a name that ends in "Cmd". The command system will automatically identify the method as a command. The start of the method name, without the "Cmd", is the command's key. Any text that follows is the command's argument. Command methods can be defined with a single string parameter and/or no parameters. A description attribute can be added to the command method so that the "help" command can output what the command is for.
+
+``` C#
+[Description("Sends a goodbye message to the clients, then restarts the server.")]
+private void RestartCmd(string message)
+{
+    StopCmd(message);
+    StartCmd();
+}
+
+[Description("Restarts the server without sending a message.")]
+private void RestartCmd()
+{
+    RestartCmd(null);
+}
+```
+
+In this case, "restart" is what needs to be typed initially, then optional text afterwards (to be handled by the command method). Note, Resharper will ask to introduce optional parameters, but optional parameters will cause the command system to behave unexpectedly.
+
+Type help to see what each preset command does.
 
 ## The Shared Library
-To properly use TcpInteract, create a class library with shared types and commands (like the DemoShared project). This allows 3rd party types to be easily serialized and deserialized in both the client and server. It also allows the commands used by the server and client to be consistent. TcpInteract uses built-in binary serialization for its predefined content datatypes (datatypes such as LoginContent which provides a login notification). Note, “content datatypes” will refer to datatypes that instantiate data that is sent from the client to the server and vice versa. The library provides abstractions to use the same serialization with user-defined datatypes. The base content datatypes names are postfixed with the text “Content”, for consistency, considering doing the same with consumer datatypes. Begin by defining datatypes in a shared library. To fully leverage the abstraction, derive the content types from Serializable<T> and mark the type as serializable.
+To properly use TcpInteract, create a class library with shared types and commands (like the DemoShared project). This allows 3rd party types to be easily serialized and deserialized in both the client and server. It also allows the commands used by the server and client to be consistent. Of course, the server and client implementations can be in the same project, but this is usually not the case. TcpInteract uses built-in binary serialization for its predefined content datatypes (datatypes such as LoginContent which provides a login notification). Note, “content datatypes” will refer to datatypes that instantiate data that is sent from the client to the server and vice versa. The library provides abstractions to use the same serialization with user-defined datatypes. The base content datatypes names are postfixed with the text “Content”, for consistency, considering doing the same with consumer datatypes. Begin by defining datatypes in a shared library. To fully leverage the abstraction, derive the content types from Serializable<T> and mark the type as serializable.
 
 ```C#
 /// <summary>
@@ -55,8 +89,8 @@ public void SendPackageAsync(int command, ISerializable serializable)
 {
     SendPackageAsync(new Package(command, serializable.Serialize()));
 }
-
 ```
+
 The serializer used does not require properties to have a public setter, which is great since Content types are “packages” of data which are meant to be prepared, sent, and read on the receiver side. By no means should the state of a content instance change. TcpInteract does not manage content routing automatically. If content needs to be routed to a specified client or set of clients, add a string or string array to the content type to represent the destination(s) of the package.
 
 ``` C#
@@ -108,7 +142,9 @@ To setup the server:
 1. Add a reference to both TcpInteract and the user-defined shared library (created earlier).
 2. Derive from ServerBase.
 3.	Implement OnPackageReceived. This methods is invoked on the UI thread. It handles a Package type. Packages are mostly unserialized content – they are merely commands bound to byte arrays. Only the command and the chunk of data it represents are deserialized, as this is all that is needed to identify what to do with the data. As well, fully deserializing all packages on the server side can be inefficient; this is especially apparent in a file transfer system.
+
 ![alt text](http://i.imgur.com/dvwcOgK.png "Packages")
+
 4. A constructor with a single integer parameter also needs to be defined. Pass in a port that is not already in use).
 5. Override the Synchronize method. This method will be called when a specific client asks for synchronization content. The base implementation of Synchronize sends a list of client names to the syncing client. The below example, adds of to this base implementation by sending instant message history tracked by the server.
 
@@ -158,9 +194,11 @@ public sealed class MessengerServer : ServerBase
     }
 }
 ```
+
 In this case, and in most, the derived server is a type that will never be derived from – consider marking it as sealed. Data can be broadcasted to all connected clients using the “Broadcast” methods. By default, these methods broadcast data to logged-in clients only. To send data to a specific client, simply find the client by name in the Clients list and use one of the client's SendPackage methods. Calls made in rapid succession to SendPackageAsync will queue data correctly unless calls are being made in rapid succession from various threads simultaneously.
 ## Implementing a Client-side Client
 Unlike the server-side client, the client-side client is meant to be derived from. Derive from the ClientSideClient class. Create abstracting Send methods much like the existing ones, only suited to specific send operations or types. Deserialize and push received packages, which are to be processed elsewhere, to the content publisher.
+
 ``` C#
 /// <summary>
 /// Sends an instant message asynchronously.
@@ -170,7 +208,9 @@ public void SendMessageAsync(string message)
     SendPackageAsync((int)Commands.InstantMessage, new InstantMessageContent(message, Name));
 }
 ```
+
 Override OnPackageReceived and process received packages by their command. Push content into the publisher to be read by consumer code.
+
 ``` C#
 protected override void OnPackageReceived(Package package)
 {
@@ -186,8 +226,10 @@ protected override void OnPackageReceived(Package package)
     }
 }
 ```
+
 ## Consuming the Server Implementation
 The demo server in the solution will be used as an example here. The demo server consumes the server implementation directly, however, the demo code was implemented this way for simplicity. A scalable application should not directly consume the server in this manner, the views should not have a great degree of code-backing. To begin, declare the server implementation, then initialize it when the desired sync context becomes available.
+
 ``` C#
 private readonly MessengerServer server;
 
@@ -198,7 +240,9 @@ public MainForm()
     …
 }
 ```
+
 Make sure the parent class implements IDisposable and is able to properly dispose of the server. In a Windows Form, dispose of the server in the Dispose override. This method runs when the both the Form.Close() and Application.Exit() are is used. Whereas OnClosing is not invoked when Application.Exit() is called.
+
 ``` C#
 protected override void Dispose(bool disposing)
 {
@@ -213,7 +257,9 @@ protected override void Dispose(bool disposing)
     base.Dispose(disposing);
 }
 ```
+
 Subscribe to content notifications by using the server’s ContentPusher. The following subscriptions display received content in a listbox:
+
 ``` C#
 public MainForm()
 {
@@ -229,6 +275,7 @@ private void SubmitConnectionRefusedContent(ConnectionRefusedContent content)
     SubmitLog($@"{content.ClientName} has been refused, reasons: {content.Reason}.");
 }
 ```
+
 The remote or public IP used to connect to the server can be retrieved like so:
 ``` C#
 protected override async void OnLoad(EventArgs e)
@@ -237,6 +284,7 @@ protected override async void OnLoad(EventArgs e)
 }
 ```
 Starting and stopping the server is quite simple. Call the Start and Stop() methods. Call Stop(String) to pass a “server closed” message to the clients along with the stop command.
+
 ``` C#
 private void buttonEnabled_CheckedChanged(object sender, EventArgs e)
 {
@@ -264,11 +312,15 @@ private void buttonEnabled_CheckedChanged(object sender, EventArgs e)
     }
 }
 ```
+
 The server does not expose the connected clients directly but does provide a bindable list of the names of the logged-in clients.
+
 ``` C#
 listUsers.DataSource = server.ClientNames;
 ```
+
 If information is needed about a client, simple use ServerBase.GetClientInfo(string). This, of course, will return significant, read-only information about the client.
+
 ``` C#
 /// <summary>
 /// Gets the key information about the specified client.
@@ -280,20 +332,26 @@ public ClientInfo GetClientInfo(string clientName)
     return ClientInfo.FromClient(clients.FirstOrDefault(c => c.Name == clientName));
 }
 ```
+
 ## Consuming the Client Implementation
 The client demo project code will be used for this section. The client demo has two Forms, one for login and one chat Form. Both of the Forms are passive and are controlled by the AppContext class. To begin, declare the client implementation and initialize it. Initialize it after the current SynchronizationContext is made available. In the demo, the following will work:
+
 ``` C#
 private readonly MessengerForm formMessenger = new MessengerForm();
 private readonly LoginForm formLogin = new LoginForm();
 private readonly MessengerClient client = new MessengerClient();
 ```
+
 But this raises an exception:
+
 ``` C#
 private readonly MessengerClient client = new MessengerClient();
 private readonly MessengerForm formMessenger = new MessengerForm();
 private readonly LoginForm formLogin = new LoginForm();
 ```
+
 Subscribe to client events and content pushes:
+
 ``` C#
 client.ConnectionAttemptFailed += (s, e) => formLogin.Status = "Attempt #" + client.ConnectionAttempts;
 client.StatusChanged += OnStatusChanged;
@@ -310,7 +368,9 @@ client.Pusher.Bind<LogoutContent>(ClientOnClientLoggedOut);
 client.Pusher.Bind<InstantMessageContent>(e => formMessenger.SubmitMessage($@"{e.SenderName}: {e.Message}"));
 client.Pusher.Bind<ScreenshotContent>(screenshot => formMessenger.Screenshot = (Bitmap)screenshot.Image);
 ```
+
 Specifically, the ClientStatusChanged event should be used to see if the client has logged in. The status of a client can be: logged in, connecting, connected (but not logged in), or disconnected (idle). All situations where the client can be disconnected should immediately reflect in the StatusChanged property. So hooking to this event will guarantee that the most recent client state is reflected in the user experience. For instance, the client status will be set to disconnected when the client has logged out, the server has closed, or the server has kicked the client.
+
 ``` C#
 private void ClientStatusChanged(object sender, EventArgs e)
 {
@@ -338,6 +398,7 @@ private void ClientStatusChanged(object sender, EventArgs e)
     }
 }
 ```
+
 Note, the logged in case hides the login Form and shows the main Form. It also calls Synchronize(), which will ask for a list of client names, and in the case of the demo, instant message history. To assess the logout reason, bind to the LogoutContent type. This type has a “Reason” property which specifies roughly how the client has disconnected. There are currently three possible values for this property:
 
 1. Kicked. The client has been kicked by the server.
@@ -345,6 +406,7 @@ Note, the logged in case hides the login Form and shows the main Form. It also c
 3. UserSpecified. The client was disconnected gracefully, sending a logout message to the server.
 
 Be sure to check kick notifications to see if they pertain to the local client.
+
 ``` C#
 private void ClientOnClientLoggedOut(LogoutContent content)
 {
@@ -376,12 +438,16 @@ private void ClientOnClientLoggedOut(LogoutContent content)
     formMessenger.SubmitMessage(message);
 }
 ```
+
 Send packages by calling send methods of the client defined in the client implementation.
+
 ``` C#
 using (Bitmap capture = CaptureScreen(Screen.GetBounds(formMessenger.Bounds)))
     client.SendScreenAsync(capture, clientName);
 ```
+
 Just like the ServerBase class, the ClientSideClient exposes a bindable list of client names. Use it to display a list of logged in clients.
+
 ``` C#
 private readonly BindingList<string> clientNames = new BindingList<string>();
 /// <summary>
@@ -389,7 +455,9 @@ private readonly BindingList<string> clientNames = new BindingList<string>();
 /// </summary>
 public IReadOnlyList<string> ClientNames => clientNames;
 ```
+
 Now that the consumer is setup for logging in. It is time to login the client implementation. Start by setting the name and IPEndPoint of the client.
+
 ``` C#
 IPAddress address;
 
@@ -406,6 +474,7 @@ catch (FormatException)
 client.Name = formLogin.ClientName;
 client.EndPoint = new IPEndPoint(address, PORT);
 ```
+
 Then call RequestLogin(), which asks the server to login. Unlike Logout(), Login() does not guarantee the desired result.
 
 ``` C#
@@ -424,8 +493,10 @@ catch (AlreadyLoggedInException ex)
     formLogin.LoggingIn = false;
 }
 ```
+
 When the login is approved, the Status property of the client changes to LoggedIn, where the UI is then adjusted appropriately.
 Logins can be refused by the server for several reasons.
+
 ``` C#
 /// <summary>
 /// Describes the possible reasons why a connection may be refused.
@@ -455,6 +526,7 @@ public enum ConnectionRefusedReason
     NoLogin
 }
 ```
+
 Handle this potential outcome with a Pusher binding.
 
 ``` C#
@@ -464,7 +536,9 @@ private void ClientOnConnectionRefused(ConnectionRefusedContent e)
     formLogin.LoggingIn = false;
 }
 ```
+
 Be sure to dispose of the client when done with it.
+
 ``` C#
 protected override void ExitThreadCore()
 {
@@ -472,22 +546,27 @@ protected override void ExitThreadCore()
     base.ExitThreadCore();
 }
 ```
+
 ## Server Features
 The server automatically refuses clients when they try to log in with a name that is already being used. This is quite important since the server distinguishs the clients by their name. The server also rejects null or empty names. The ServerBase.RefusePattern property is a regex string that can be set to further validate the client names. Pattern matches reject clients or invalidates otherwise valid logins.
 The server has a client poller. The client poller disconnects clients that are connected but not logged in. The clients must be in this state for three seconds, by default, before they are disconnected. The poller also checks for clients that have timed out. Clients that have timed out have not sent a logout notification, therefore the server is unaware of the client’s state until the server tries to send data to it. The poller checks for disconnected clients, by default, every five seconds. Once a disconnected client is found, it is removed from the client list and a logout notification is sent to all logged in clients. The PollWait, SolicitorCheckInterval, and SolicitorThreshold properties can be set to customize the poller’s strictness.
-ServerBase has a kick method – KickClient(string, string). Pass in the name of the client to be kicked and an optional message. All logged in clients will be notified of the kick operation.
+ServerBase has a kick method – KickClient(string, string). Pass in the name of the client to be kicked and an optional message. All logged in clients will be notified of the kick operation. Note, the LogoutContent facilitates notifications for kicks, typical logouts, and timed out clients.
+
 ``` C#
 var args = new LogoutContent(name, LogoutReason.Kicked, reason);
 var package = new Package((int)BaseCommands.Logout, args.Serialize());
 BroadcastPackage(package);
 ```
+
 ## Client Features
 RequestLogin() continuously attempts to connect until AbortConnect() is called or the max connection attempts has been reached.  The MaxConnectionAttempts property can be set to limit how many automatic connection attempts are made after calling RequestLogin(). By default this property is set to zero. Zero indicates that the client should try to connect indefinitely.
 Clients can be manually polled. That is, they can be checked for connectivity (since Socket.Connected only reflects the last known state of the Socket). Use the IsInactive methods to see if a client is still connected.
+
 ``` C#
 public Task<bool> IsInactiveTaskAsync(int waitTime);
 public bool IsInactive(int waitTime);
 ```
+
 The connection time and login time are automatically tracked for both the server-side client and the client-side client.
 
 ``` C#
@@ -501,10 +580,11 @@ public DateTime? ConnectionTime { get; protected set; }
 /// </summary>
 public DateTime? LoggedInTime { get; protected set; }
 ```
+
 ## Potential Improvements
 1.	It may be best to identify the clients by the socket handle instead of the client’s name.
 2.	It may be possible to overload the plus and minus operators in the ContentPusher class, to provide more elegant subscriptions (-=, +=). So far I have not found a way to do this.
 3.	Built-in file transferring would be nice.
 4.	Add a port checking tool?
 5.	More bindable properties.
-6. Consider an MVP implementation to be used for the demo and unit testing.
+6. Consider an MVP implementation to be used for the client demo for unit testing.
