@@ -7,8 +7,12 @@ namespace UnitTesting
     [TestClass]
     public class ContentPusherTests
     {
+        /// <summary>
+        /// Checks to see if the <see cref="ContentPusher"/> can do a basic bind
+        /// and push correctly.
+        /// </summary>
         [TestMethod]
-        public void BasicBindPush_Test()
+        public void BasicBindPush_Assert()
         {
             ContentPusher pusher = new ContentPusher();
             bool fired = false;
@@ -29,7 +33,7 @@ namespace UnitTesting
         /// Types should be exact, a cat handler should not handle an Animal.
         /// </summary>
         [TestMethod]
-        public void Deritive_Test()
+        public void Deritive_Throw()
         {
             ContentPusher pusher = new ContentPusher();
             pusher.Bind<Cat>(o => { Assert.Fail();});
@@ -40,7 +44,7 @@ namespace UnitTesting
         /// Check to see if methods unbind properly.
         /// </summary>
         [TestMethod]
-        public void Unbind_Test()
+        public void Unbind_Throw()
         {
             Action<Cat> method = o => Assert.Fail();
             ContentPusher pusher = new ContentPusher();
@@ -53,7 +57,7 @@ namespace UnitTesting
         /// More than one method should be able to subscribe to a type.
         /// </summary>
         [TestMethod]
-        public void MultipleSubscribers_Test()
+        public void MultipleSubscribers_Assert()
         {
             bool a1Raised = false;
             bool a2Raised = false;
@@ -70,7 +74,7 @@ namespace UnitTesting
         /// Make sure unbind, unbinds by delegate and not type.
         /// </summary>
         [TestMethod]
-        public void MultipleSubscribersUnbind_Test()
+        public void MultipleSubscribersUnbind_Assert()
         {
             bool a1Raised = false;
             Action<Cat> action1 = delegate { a1Raised = true; };
@@ -100,8 +104,6 @@ namespace UnitTesting
             public int TestProp1 { get; set; }
         }
 
-        private class Cat : Animal
-        {
-        }
+        private class Cat : Animal {}
     }
 }
