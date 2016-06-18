@@ -103,8 +103,8 @@ namespace TcpInteract
         /// </summary>
         /// <param name="format">The format to use for individual lines. {0} is the name
         /// of the property and {1} is the value.</param>
-        /// <param name="lineSeperator">The string to use in between lines.</param>
-        public string ToString(string format, string lineSeperator = "\r\n")
+        /// <param name="lineSeparator">The string to use in between lines.</param>
+        public string ToString(string format, string lineSeparator = "\r\n")
         {
             var lines = GetLines(format);
             StringBuilder SB = new StringBuilder();
@@ -117,7 +117,7 @@ namespace TcpInteract
                 }
                 else
                 {
-                    SB.AppendLine(lines[i] + lineSeperator);
+                    SB.AppendLine(lines[i] + lineSeparator);
                 }
             }
 

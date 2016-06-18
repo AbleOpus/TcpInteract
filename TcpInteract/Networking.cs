@@ -40,7 +40,7 @@ namespace TcpInteract
         /// </summary>
         /// <exception cref="DataException">The web content downloaded did not contain an address.</exception>
         /// <exception cref="WebException"></exception>
-        public static string GetPublicIpString()
+        public static string GetPublicIPString()
         {
             using (WebClient client = new WebClient())
             {
@@ -54,9 +54,9 @@ namespace TcpInteract
         /// </summary>
         /// <exception cref="DataException">The web content downloaded did not contain an address.</exception>
         /// <exception cref="WebException"></exception>
-        public static Task<string> GetPublicIpStringTaskAsync()
+        public static Task<string> GetPublicIPStringTaskAsync()
         {
-            return Task.Run(() => GetPublicIpString());
+            return Task.Run(() => GetPublicIPString());
         }
     }
 }

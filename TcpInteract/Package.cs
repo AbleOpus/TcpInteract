@@ -58,7 +58,7 @@ namespace TcpInteract
         /// with the specified arguments.
         /// </summary>
         /// <param name="command">The command to specify the meaning of the package and what is in the contents.</param>
-        internal Package(BaseCommands command)
+        internal Package(BaseCommand command)
                  : this((int)command) { }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace TcpInteract
         /// </summary>
         /// <param name="command">The command/interaction to specify the meaning of the package and what is in the contents.</param>
         /// <param name="content">The contents of the package (the type is determined by the Interaction).</param>
-        internal Package(BaseCommands command, byte[] content)
+        internal Package(BaseCommand command, byte[] content)
             : this(command)
         {
             Content = content;

@@ -7,7 +7,7 @@ namespace TcpInteract
     /// <summary>
     /// Commands to be used for both the server and client.
     /// </summary>
-    public enum BaseCommands
+    public enum BaseCommand
     {
         /// <summary>
         /// Client to Server: The client is requesting initial data so it may synchronize with

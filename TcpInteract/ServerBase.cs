@@ -176,11 +176,11 @@ namespace TcpInteract
 
         private void OnPackageReceivedCore(ServerSideClient client, Package e)
         {
-            switch ((BaseCommands)e.Command)
+            switch ((BaseCommand)e.Command)
             {
-                case BaseCommands.ClientNames: SendClientNames(client); break;
+                case BaseCommand.ClientNames: SendClientNames(client); break;
 
-                case BaseCommands.Logout:
+                case BaseCommand.Logout:
                     clients.Remove(client);
                     BroadcastPackageAsync(e, client);
                     clientNames.Remove(client.Name);
@@ -188,9 +188,9 @@ namespace TcpInteract
                     OnClientLoggedOut(LogoutContent.Deserialize(e.Content));
                     break;
 
-                case BaseCommands.Login: ProcessLoginPackage(client, e); break;
+                case BaseCommand.Login: ProcessLoginPackage(client, e); break;
 
-                case BaseCommands.Sync:
+                case BaseCommand.Sync:
                     Synchronize(client);
                     break;
             }
@@ -201,8 +201,7 @@ namespace TcpInteract
         /// <summary>
         /// When a client receives an entire package, this method is to be used to process it.
         /// </summary>
-        /// 
-        protected abstract void OnPackageReceived(ServerSideClient client, Package e);
+        protected abstract void OnPackageReceived(ServerSideClient client, Package package);
 
         /// <summary>
         /// Looks for clients that are connected but not doing anything and removes them.
@@ -221,7 +220,7 @@ namespace TcpInteract
                     {
                         const ConnectionRefusedReason REASON = ConnectionRefusedReason.NoLogin;
                         var content = new ConnectionRefusedContent(REASON, clients[i].Name);
-                        clients[i].SendPackageAsync((int)BaseCommands.ConnectionRefused, content);
+                        clients[i].SendPackageAsync((int)BaseCommand.ConnectionRefused, content);
                         OnConnectionRefused(content);
                         clientNames.Remove(clients[i].Name);
                         clients[i].Dispose();
@@ -261,7 +260,7 @@ namespace TcpInteract
         private void SendClientNames(ServerSideClient client)
         {
             var contents = new ClientNamesContent(clients.Select(c => c.Name).ToArray());
-            client.SendPackageAsync((int)BaseCommands.ClientNames, contents);
+            client.SendPackageAsync((int)BaseCommand.ClientNames, contents);
         }
 
         /// <summary>
@@ -342,7 +341,7 @@ namespace TcpInteract
                 timerSolicitorChecker.Stop();
                 timerTimedOutChecker.Stop();
                 var content = new ServerClosedContent(serverClosedMessage);
-                Package package = new Package(BaseCommands.ServerClosed, content.Serialize());
+                Package package = new Package(BaseCommand.ServerClosed, content.Serialize());
 
                 foreach (ServerSideClient client in clients)
                 {
@@ -408,7 +407,7 @@ namespace TcpInteract
             {
                 var args = new ConnectionRefusedContent(reason, loginContent.ClientName);
                 // Here I am rejecting the user, we will send the reject message to the appropriate client
-                var pkgResp = new Package(BaseCommands.ConnectionRefused, args.Serialize());
+                var pkgResp = new Package(BaseCommand.ConnectionRefused, args.Serialize());
                 client.SendPackageAsync(pkgResp);
                 clientNames.Remove(client.Name);
                 clients.Remove(client);
@@ -506,7 +505,7 @@ namespace TcpInteract
             }
 
             var content = new LogoutContent(name, LogoutReason.Kicked, reason);
-            var package = new Package((int)BaseCommands.Logout, content);
+            var package = new Package((int)BaseCommand.Logout, content);
             OnClientLoggedOut(content);
             BroadcastPackage(package);
             clientNames.Remove(client.Name);

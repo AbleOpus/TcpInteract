@@ -121,19 +121,19 @@ namespace TcpInteract
         /// <param name="package">The package that has been received.</param>
         protected virtual void OnPackageReceived(Package package)
         {
-            switch ((BaseCommands)package.Command)
+            switch ((BaseCommand)package.Command)
             {
-                case BaseCommands.Logout:
+                case BaseCommand.Logout:
                     var content = LogoutContent.Deserialize(package.Content);
                     OnLoggedOut(content);
                     break;
 
-                case BaseCommands.ClientNames:
+                case BaseCommand.ClientNames:
                     var c = ClientNamesContent.Deserialize(package.Content);
                     OnNamesReceived(c);
                     break;
 
-                case BaseCommands.Login:
+                case BaseCommand.Login:
                     var loginContent = LoginContent.Deserialize(package.Content);
                     OnLoggedIn(loginContent);
                     break;

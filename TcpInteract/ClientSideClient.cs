@@ -148,16 +148,16 @@ namespace TcpInteract
         {
             base.OnPackageReceived(package);
 
-            switch ((BaseCommands)package.Command)
+            switch ((BaseCommand)package.Command)
             {
-                case BaseCommands.ConnectionRefused:
+                case BaseCommand.ConnectionRefused:
                 
                     ResetClient();
                     var args = ConnectionRefusedContent.Deserialize(package.Content);
                     OnConnectionRefused(args);
                     break;
 
-                case BaseCommands.ServerClosed:
+                case BaseCommand.ServerClosed:
                     var content = ServerClosedContent.Deserialize(package.Content);
                     ResetClient();
                     OnServerClosed(content);
@@ -178,7 +178,7 @@ namespace TcpInteract
         /// </summary>
         public void Synchronize()
         {
-            SendPackageAsyncBase((int)BaseCommands.Sync);
+            SendPackageAsyncBase((int)BaseCommand.Sync);
         }
 
         /// <summary>
@@ -200,7 +200,7 @@ namespace TcpInteract
             if (Status == ClientStatus.LoggedIn)
             {
                 var args = new LogoutContent(Name, reason);
-                Package package = new Package(BaseCommands.Logout, args.Serialize());
+                Package package = new Package(BaseCommand.Logout, args.Serialize());
                 SendPackageAsyncBase(package);
             }
 
@@ -246,7 +246,7 @@ namespace TcpInteract
                         Status = ClientStatus.Connected;
                         StartReceiving();
                         // Ask to login.
-                        SendPackageAsyncBase((int)BaseCommands.Login, new LoginContent(Name));
+                        SendPackageAsyncBase((int)BaseCommand.Login, new LoginContent(Name));
                         return;
                     }
                     catch (SocketException)
