@@ -29,6 +29,9 @@ namespace TcpInteract
         /// </summary>
         public DateTime? LoggedInTime { get; }
 
+        /// <summary>
+        /// Gets the IP address of the client.
+        /// </summary>
         public IPAddress IP { get; }
 
         /// <summary>
@@ -39,13 +42,14 @@ namespace TcpInteract
         /// <param name="name">The name of the client.</param>
         /// <param name="connectionTime">The time in which this client has established a connection. </param>
         /// <param name="loggedInTime">The time in which this client has logged in. </param>
-        private ClientInfo(ClientStatus status, string name, DateTime? connectionTime, DateTime? loggedInTime, IPAddress ip)
+        /// <param name="IP">The IP address of the client.</param>
+        private ClientInfo(ClientStatus status, string name, DateTime? connectionTime, DateTime? loggedInTime, IPAddress IP)
         {
             Status = status;
             Name = name;
             ConnectionTime = connectionTime;
             LoggedInTime = loggedInTime;
-            IP = ip;
+            this.IP = IP;
         }
 
         /// <summary>
